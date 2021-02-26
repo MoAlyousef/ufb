@@ -2,6 +2,13 @@
 
 Just quickly show or draw a framebuffer in a window, nothing else!
 
+Why use ufb:
+- Uses hardware-acceleration via OpenGL.
+- Supports L8, La8, Rgb8 and Rgba8 `&[u8]` buffers.
+- Fast to build.
+- Doesn't need vulkan drivers.
+- Minimal interface.
+
 ## Usage
 ```toml
 [dependencies]
