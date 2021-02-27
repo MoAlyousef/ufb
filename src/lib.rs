@@ -8,7 +8,7 @@
 //! - Fast to build.
 //! - Doesn't need vulkan drivers.
 //! - Minimal interface.
-//! 
+//!
 //!
 //! ## Usage
 //! ```toml
@@ -23,8 +23,8 @@
 //! const HEIGHT: u32 = 768;
 //!
 //! fn main() {
-//!     let mut fb: Vec<u8> = vec![0u8; (WIDTH * HEIGHT * 3) as usize];
-//!     for (iter, pixel) in fb.chunks_exact_mut(3).enumerate() {
+//!     let mut win = Window::new(WIDTH, HEIGHT, "Hello", ColorDepth::Rgb8).unwrap();
+//!     for (iter, pixel) in win.get_frame().chunks_exact_mut(3).enumerate() {
 //!         let x = iter % WIDTH as usize;
 //!         let y = iter / WIDTH as usize;
 //!         let val = x ^ y;
@@ -34,16 +34,14 @@
 //!         let b = u8::from_str_radix(&hex[4..6], 16).unwrap();
 //!         pixel.copy_from_slice(&[r, g, b]);
 //!     }
-//!
-//!     let mut win = Window::new(WIDTH, HEIGHT, "Hello").unwrap();
-//!     win.show(&fb, ColorDepth::Rgb8).unwrap();
+//!     win.show();
 //! }
 //! ```
 
 extern crate glfw;
 use glu_sys::glu::*;
 
-use glfw::Context;
+use glfw::{Action, Context, Key};
 
 /// ufb error types
 #[derive(Debug)]
@@ -100,13 +98,16 @@ pub struct Window {
     win: glfw::Window,
     w: u32,
     h: u32,
+    visual: ColorDepth,
+    events: std::sync::mpsc::Receiver<(f64, glfw::WindowEvent)>,
+    frame: Vec<u8>,
 }
 
 impl Window {
     /// Instantiate a window
-    pub fn new(w: u32, h: u32, title: &str) -> Result<Self, UfbError> {
+    pub fn new(w: u32, h: u32, title: &str, visual: ColorDepth) -> Result<Self, UfbError> {
         let glfw = glfw::init(glfw::FAIL_ON_ERRORS)?;
-        let (mut window, _) = glfw
+        let (mut window, events) = glfw
             .create_window(w, h, title, glfw::WindowMode::Windowed)
             .expect("Failed to create GLFW window.");
         window.set_resizable(false);
@@ -116,22 +117,26 @@ impl Window {
             win: window,
             w,
             h,
+            visual,
+            events,
+            frame: vec![0u8; (w * h * visual as u32) as usize],
         })
     }
 
+    /// Get the internal buffer
+    pub fn get_frame(&mut self) -> &mut [u8] {
+        &mut self.frame
+    }
+
     /// Show the window
-    pub fn show(&mut self, fb: &[u8], depth: ColorDepth) -> Result<(), UfbError> {
+    pub fn show(&mut self) {
         while !self.win.should_close() {
-            let gl_enum = match depth {
+            let gl_enum = match self.visual {
                 ColorDepth::L8 => GL_LUMINANCE,
                 ColorDepth::La8 => GL_LUMINANCE_ALPHA,
                 ColorDepth::Rgb8 => GL_RGB,
                 ColorDepth::Rgba8 => GL_RGBA,
             };
-            let depth = depth as u32;
-            if fb.len() as u32 != self.w * self.h * depth {
-                return Err(UfbError::Internal(UfbErrorKind::InvalidFormat));
-            }
             unsafe {
                 glRasterPos2i(-1, 1);
                 glPixelZoom(1., -1.);
@@ -140,13 +145,20 @@ impl Window {
                     self.h as _,
                     gl_enum,
                     GL_UNSIGNED_BYTE,
-                    fb.as_ptr() as _,
+                    self.frame.as_ptr() as _,
                 );
             }
             self.win.swap_buffers();
             self.glfw.poll_events();
-            std::thread::sleep(std::time::Duration::from_millis(16));
+            for (_, event) in glfw::flush_messages(&self.events) {
+                match event {
+                    glfw::WindowEvent::Key(Key::Escape, _, Action::Press, _) => {
+                        self.win.set_should_close(true)
+                    }
+                    _ => {},
+                }
+            }
+            std::thread::sleep(std::time::Duration::from_millis(30));
         }
-        Ok(())
     }
 }
