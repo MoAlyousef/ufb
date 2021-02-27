@@ -23,7 +23,7 @@
 //! const HEIGHT: u32 = 768;
 //!
 //! fn main() {
-//!     let mut win = Window::new(WIDTH, HEIGHT, "Hello", ColorDepth::Rgb8).unwrap();
+//!     let mut win = Window::new(WIDTH, HEIGHT, ColorDepth::Rgb8, "My Framebuffer").unwrap();
 //!     for (iter, pixel) in win.get_frame().chunks_exact_mut(3).enumerate() {
 //!         let x = iter % WIDTH as usize;
 //!         let y = iter / WIDTH as usize;
@@ -37,6 +37,21 @@
 //!     win.show();
 //! }
 //! ```
+//! 
+//! Using the image crate:
+//! ```no_run
+//! use ufb::{ColorDepth, Window};
+//! use image::GenericImageView;
+//!
+//! fn main() {
+//!     let img = image::open("screenshots/image.jpg").unwrap();
+//!     let (w, h) = img.dimensions();
+//!     let mut win = Window::new(w, h, ColorDepth::Rgba8, "image.jpg").unwrap();
+//!     win.get_frame().copy_from_slice(&img.to_rgba8());
+//!     win.show();
+//! }
+//! ```
+//!
 
 extern crate glfw;
 use glu_sys::glu::*;
@@ -105,7 +120,7 @@ pub struct Window {
 
 impl Window {
     /// Instantiate a window
-    pub fn new(w: u32, h: u32, title: &str, visual: ColorDepth) -> Result<Self, UfbError> {
+    pub fn new(w: u32, h: u32, visual: ColorDepth, title: &str) -> Result<Self, UfbError> {
         let glfw = glfw::init(glfw::FAIL_ON_ERRORS)?;
         let (mut window, events) = glfw
             .create_window(w, h, title, glfw::WindowMode::Windowed)

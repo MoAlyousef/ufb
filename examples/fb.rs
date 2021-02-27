@@ -4,7 +4,7 @@ const WIDTH: u32 = 768;
 const HEIGHT: u32 = 768;
 
 fn main() { 
-    let mut win = Window::new(WIDTH, HEIGHT, "Hello", ColorDepth::Rgb8).unwrap();
+    let mut win = Window::new(WIDTH, HEIGHT, ColorDepth::Rgb8, "My Framebuffer").unwrap();
     for (iter, pixel) in win.get_frame().chunks_exact_mut(3).enumerate() {
         let x = iter % WIDTH as usize;
         let y = iter / WIDTH as usize;
