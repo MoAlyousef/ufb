@@ -1,3 +1,5 @@
+extern crate ufb;
+
 use ufb::{ColorDepth, Window};
 
 const WIDTH: u32 = 768;

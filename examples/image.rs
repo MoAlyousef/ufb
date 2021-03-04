@@ -1,3 +1,4 @@
+extern crate ufb;
 extern crate image;
 
 use ufb::{ColorDepth, Window};

@@ -1,6 +1,6 @@
 [package]
 name = "ufb"
-version = "0.1.4"
+version = "0.2.0"
 authors = ["MoAlyousef <may642_2000@hotmail.com>"]
 edition = "2018"
 description = "Just quickly show or draw a framebuffer in a window, nothing else!"

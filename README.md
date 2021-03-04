@@ -13,7 +13,7 @@ Why use ufb:
 ## Usage
 ```toml
 [dependencies]
-ufb = "0.1"
+ufb = "0.2"
 ```
 
 ```rust
@@ -55,8 +55,9 @@ fn main() {
 ## Examples
 To run the examples:
 ```
-$ cargo run --example fb
+$ cargo run --example pattern
 $ cargo run --example gradient
-$ cargo run --example rand
+$ cargo run --example noise
 $ cargo run --example image
+$ cargo run --example fractals
 ```

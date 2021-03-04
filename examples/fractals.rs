@@ -1,5 +1,6 @@
 // modified from https://github.com/image-rs/image/blob/master/examples/fractal.rs
 
+extern crate ufb;
 extern crate num_complex;
 
 use ufb::{ColorDepth, Window};
@@ -34,7 +35,7 @@ fn main() {
                 i += 1;
             }
 
-            let idx = (y as usize * WIDTH as usize + x as usize) * 3;
+            let idx = win.buffer_index_at(x, y).unwrap();
             let frame = win.get_frame();
             let r = frame[idx];
             let g = i as u8;
