@@ -17,3 +17,4 @@ glu-sys = "0.1.4"
 
 [dev-dependencies]
 image = { version = "0.23", default-features = false, features = ["jpeg"] }
+rand = "0.8.3"
