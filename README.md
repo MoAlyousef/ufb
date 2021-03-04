@@ -51,3 +51,12 @@ fn main() {
     win.show();
 }
 ```
+
+## Examples
+To run the examples:
+```
+$ cargo run --example fb
+$ cargo run --example gradient
+$ cargo run --example rand
+$ cargo run --example image
+```
