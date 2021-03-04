@@ -13,7 +13,7 @@
 //! ## Usage
 //! ```toml
 //! [dependencies]
-//! ufb = "*"
+//! ufb = "0.1"
 //! ```
 //!
 //! ```no_run

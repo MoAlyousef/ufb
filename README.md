@@ -13,7 +13,7 @@ Why use ufb:
 ## Usage
 ```toml
 [dependencies]
-ufb = "*"
+ufb = "0.1"
 ```
 
 ```rust

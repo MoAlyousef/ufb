@@ -1,3 +1,5 @@
+extern crate rand;
+
 use ufb::{ColorDepth, Window};
 use rand::distributions::{Distribution, Uniform};
 

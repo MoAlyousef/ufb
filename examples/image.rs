@@ -1,3 +1,5 @@
+extern crate image;
+
 use ufb::{ColorDepth, Window};
 use image::GenericImageView;
 
