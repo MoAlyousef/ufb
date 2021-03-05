@@ -20,6 +20,5 @@ fn main() {
             let b = range.sample(&mut rng);
             pixel.copy_from_slice(&[r, g, b]);
         }
-        std::thread::sleep(std::time::Duration::from_millis(16));
     }
 }
