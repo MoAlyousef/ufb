@@ -13,7 +13,7 @@ fn main() {
 
     let mut win = Window::new(WIDTH, HEIGHT, ColorDepth::Rgb8, "Noise").unwrap();
 
-	while win.shown() {
+    while win.shown() {
         for (_, pixel) in win.get_frame().chunks_exact_mut(3).enumerate() {
             let r = range.sample(&mut rng);
             let g = range.sample(&mut rng);
