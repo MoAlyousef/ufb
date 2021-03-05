@@ -7,7 +7,7 @@ Why use ufb:
 - To quickly debug image or framebuffer output, instead of writing to files.
 - Supports L8, La8, Rgb8 and Rgba8 `&[u8]` buffers.
 - Fast to build.
-- Doesn't need vulkan drivers.
+- Doesn't need vulkan drivers. Supports legacy OpenGL.
 - Minimal interface.
 
 ## Usage
