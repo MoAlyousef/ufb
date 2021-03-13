@@ -1,13 +1,13 @@
 [package]
 name = "ufb"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["MoAlyousef <may642_2000@hotmail.com>"]
 edition = "2018"
 description = "Just quickly show or draw a framebuffer in a window, nothing else!"
 repository = "https://github.com/MoAlyousef/ufb"
 documentation = "https://docs.rs/ufb"
-keywords = ["framebuffer", "preview", "image", "windowing", "opengl"]
-categories = ["development-tools::debugging", "rendering", "visualization"]
+keywords = ["framebuffer", "image", "windowing", "opengl"]
+categories = ["development-tools::debugging", "rendering", "visualization", "graphics"]
 readme = "README.md"
 license = "MIT"
 
